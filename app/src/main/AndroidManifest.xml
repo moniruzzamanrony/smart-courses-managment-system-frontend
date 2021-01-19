@@ -9,7 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartCoursesManagmentSystemFrontend">
-        <activity android:name="com.itvillage.scms.MainActivity">
+        <activity android:name=".AttendeesActivity"></activity>
+        <activity
+            android:name=".AddNewCourseActivity"
+            android:label="Add New Course" />
+        <activity
+            android:name=".SignUpActivity"
+            android:label="Sign Up" />
+        <activity
+            android:name=".StudentHomeActivity"
+            android:label="Student Panel" />
+        <activity
+            android:name=".FacultyHomeActivity"
+            android:label="Faculty Panel" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
