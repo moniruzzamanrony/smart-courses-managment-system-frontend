@@ -9,7 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartCoursesManagmentSystemFrontend">
-        <activity android:name=".AttendeesActivity"></activity>
+        <activity android:name=".MyAttendeeActivity"
+            android:label="My Attendee"></activity>
+        <activity
+            android:name=".AvailableCourseListActivity"
+            android:label="Available Course List" />
+        <activity android:name=".AttendeesActivity"
+            android:label="Attendees List"/>
         <activity
             android:name=".AddNewCourseActivity"
             android:label="Add New Course" />
@@ -18,7 +24,7 @@
             android:label="Sign Up" />
         <activity
             android:name=".StudentHomeActivity"
-            android:label="Student Panel" />
+            android:label="My Courses" />
         <activity
             android:name=".FacultyHomeActivity"
             android:label="Faculty Panel" />

@@ -33,14 +33,14 @@ public class FacultyHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faculty_home);
-        facultyEmail.add("1");
-        facultyPhoneNo.add("1");
-        facultyName.add("1");
-        totalClass.add("1");
-        assignFaculty.add("1");
-        courseCode.add("1");
-        courseId.add("1");
-        courseTitle.add("1");
+        facultyEmail.add("Faculty Email: faculty@gmail.com");
+        facultyPhoneNo.add("Faculty Phone: 01988841890");
+        facultyName.add("Faculty Name: Abdul Goni");
+        totalClass.add("30");
+        assignFaculty.add("Abdul Goni");
+        courseCode.add("SWE-122");
+        courseId.add("122");
+        courseTitle.add("Software Engineering");
         List<StudentDetailsResponse> studentDetailsResponses= new ArrayList<>();
         StudentDetailsResponse studentDetailsResponse = new StudentDetailsResponse();
         studentDetailsResponse.setStudentId("1234");
