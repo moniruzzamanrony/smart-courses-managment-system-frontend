@@ -29,7 +29,7 @@
                 app:layout_constraintVertical_bias="0.133">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/gameNumber"
+                    android:id="@+id/courseTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -46,7 +46,7 @@
                 app:layout_constraintVertical_bias="0.133">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/gameType"
+                    android:id="@+id/courseCode"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -59,12 +59,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Total Classes"
+                android:hint="Total Credit"
                 app:hintTextColor="@color/text_color"
                 app:layout_constraintVertical_bias="0.133">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/gameName"
+                    android:id="@+id/courseCredit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"

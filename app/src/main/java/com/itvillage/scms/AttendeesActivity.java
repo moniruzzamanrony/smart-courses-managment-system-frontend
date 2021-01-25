@@ -2,6 +2,7 @@ package com.itvillage.scms;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +12,19 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.itvillage.scms.dto.response.IdentityResponse;
+import com.itvillage.scms.dto.response.RegistrationCourseRequest;
+import com.itvillage.scms.services.ApiServices;
+
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 public class AttendeesActivity extends AppCompatActivity {
+    String courseId;
+    String studentId;
 
     private  TableLayout detailsTable;
     @Override
@@ -19,13 +32,28 @@ public class AttendeesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendees);
         detailsTable = (TableLayout) findViewById(R.id.activity_tableLayout_attandee);
+        courseId = getIntent().getExtras().getString("courseId").toString();
+        createTableRow(courseId);
 
 
-        TableRow tr1= AddOneStudentAttendeeRowInTable("Moniruzzaman Roni");
-        TableRow tr2= AddOneStudentAttendeeRowInTable("Rassel Alom");
+    }
 
-        detailsTable.addView(tr1, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-        detailsTable.addView(tr2, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+    private void createTableRow(String courseId) {
+        ApiServices apiServices = new ApiServices(this);
+        Observable<List<RegistrationCourseRequest>> identityResponseObservable= apiServices.getRegisterStudents(courseId);
+
+        identityResponseObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(res -> {
+                    for (RegistrationCourseRequest registrationCourseRequest: res) {
+
+                        studentId = registrationCourseRequest.getId();
+                        TableRow tr1 = AddOneStudentAttendeeRowInTable(registrationCourseRequest.getStudentName());
+                        detailsTable.addView(tr1, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                    }
+                }, throwable -> {
+                }, () -> {
+                });
     }
 
     private TableRow AddOneStudentAttendeeRowInTable(String StudentName) {
@@ -44,11 +72,25 @@ public class AttendeesActivity extends AppCompatActivity {
             checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e(""+ finalI,StudentName);
+                    attendee(courseId,studentId,String.valueOf(finalI));
+
                 }
             });
 
         }
         return tr;
+    }
+
+    private void attendee(String courseId,String studentId,String dayNo) {
+        ApiServices apiServices = new ApiServices(this);
+        Observable<IdentityResponse> identityResponseObservable= apiServices.addNewAttendee(courseId,studentId,dayNo);
+
+        identityResponseObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(res -> {
+
+                }, throwable -> {
+                }, () -> {
+                });
     }
 }

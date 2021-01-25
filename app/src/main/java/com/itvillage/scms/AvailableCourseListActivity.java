@@ -8,9 +8,16 @@ import android.widget.ListView;
 import com.itvillage.scms.adapter.AvailableCourseListForStudentAdapter;
 import com.itvillage.scms.adapter.CourseListAdapter;
 import com.itvillage.scms.dto.response.StudentDetailsResponse;
+import com.itvillage.scms.dto.response.TeacherResponse;
+import com.itvillage.scms.services.ApiServices;
+import com.itvillage.scms.util.LoggedUserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class AvailableCourseListActivity extends AppCompatActivity {
 
@@ -24,20 +31,14 @@ public class AvailableCourseListActivity extends AppCompatActivity {
     private ArrayList<String> facultyName= new ArrayList<>();
     private ArrayList<String> facultyPhoneNo= new ArrayList<>();
     private ArrayList<String> facultyEmail= new ArrayList<>();
+    private ArrayList<String> facultyId= new ArrayList<>();
     private ArrayList<List<StudentDetailsResponse>> registerStudents=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_available_course_list);
 
-        facultyEmail.add("Faculty Email: faculty@gmail.com");
-        facultyPhoneNo.add("Faculty Phone: 01988841890");
-        facultyName.add("Faculty Name: Abdul Goni");
-        totalClass.add("30");
-        assignFaculty.add("Abdul Goni");
-        courseCode.add("SWE-122");
-        courseId.add("122");
-        courseTitle.add("Software Engineering");
+
         List<StudentDetailsResponse> studentDetailsResponses= new ArrayList<>();
         StudentDetailsResponse studentDetailsResponse = new StudentDetailsResponse();
         studentDetailsResponse.setStudentId("1234");
@@ -47,9 +48,29 @@ public class AvailableCourseListActivity extends AppCompatActivity {
     }
 
     private void setDataInAvailableCourseListView() {
+        ApiServices apiServices = new ApiServices(this);
+        Observable<List<TeacherResponse>> identityResponseObservable= apiServices.getCourses();
 
-        available_courses_list  = findViewById(R.id.available_courses_list);
-        AvailableCourseListForStudentAdapter adapter = new AvailableCourseListForStudentAdapter(this,courseId,courseTitle,courseCode,assignFaculty,totalClass,registerStudents,facultyName,facultyPhoneNo,facultyEmail);
-        available_courses_list.setAdapter(adapter);
+        identityResponseObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(res -> {
+                    for(TeacherResponse courseRequest: res) {
+                        facultyId.add(courseRequest.getTeacherId());
+                        facultyEmail.add("");
+                        facultyPhoneNo.add("Faculty Phone: " + courseRequest.getMobileNo());
+                        facultyName.add("Faculty Name: "+courseRequest.getFirstName());
+                        totalClass.add(courseRequest.getCourseCredit());
+                        assignFaculty.add(courseRequest.getFirstName());
+                        courseCode.add(courseRequest.getCourseCode());
+                        courseId.add(courseRequest.getId());
+                        courseTitle.add("Software Engineering");
+                    }
+                    available_courses_list  = findViewById(R.id.available_courses_list);
+                    AvailableCourseListForStudentAdapter adapter = new AvailableCourseListForStudentAdapter(this,facultyId,courseId,courseTitle,courseCode,assignFaculty,totalClass,registerStudents,facultyName,facultyPhoneNo,facultyEmail);
+                    available_courses_list.setAdapter(adapter);
+                }, throwable -> {
+                }, () -> {
+                });
+
     }
 }

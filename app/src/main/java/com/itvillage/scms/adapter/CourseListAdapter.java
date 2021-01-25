@@ -11,11 +11,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.itvillage.scms.AttendeesActivity;
+import com.itvillage.scms.FacultyHomeActivity;
 import com.itvillage.scms.R;
+import com.itvillage.scms.dto.response.IdentityResponse;
 import com.itvillage.scms.dto.response.StudentDetailsResponse;
+import com.itvillage.scms.dto.response.TeacherResponse;
+import com.itvillage.scms.services.ApiServices;
+import com.itvillage.scms.util.LoggedUserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class CourseListAdapter extends ArrayAdapter<String> {
@@ -51,6 +60,7 @@ public class CourseListAdapter extends ArrayAdapter<String> {
         this.facultyName = facultyName;
         this.facultyPhoneNo = facultyPhoneNo;
         this.facultyEmail = facultyEmail;
+        this.courseId = courseId;
 
     }
 
@@ -81,6 +91,7 @@ public class CourseListAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Intent intent =new Intent(context, AttendeesActivity.class);
+                intent.putExtra("courseId",courseId.get(position));
                 context.startActivity(intent);
                 Log.e("Id",registerStudent.get(position).get(position).getStudentId());
             }
@@ -91,45 +102,5 @@ public class CourseListAdapter extends ArrayAdapter<String> {
     }
 
 
-//    @SuppressLint("CheckResult")
-//    private void updateGameResult(String gameId, String userId, String squadPrize, String numberOfKill) {
-//
-//        UpdateGameResultService updateGameResultService = new UpdateGameResultService(context);
-//
-//        Observable<String> responseObservable = updateGameResultService.updateGameResultService(gameId, userId, squadPrize, numberOfKill);
-//
-//
-//        responseObservable.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(res -> {
-//
-//                    onLoginSuccess();
-//
-//                }, throwable -> {
-//                    onLoginFailure(throwable);
-//                }, () -> {
-//
-//                });
-//
-//    }
-//
-//
-//    private void onLoginFailure(Throwable throwable) {
-//
-//        if (throwable instanceof HttpException) {
-//            HttpException httpException = (HttpException) throwable;
-//
-//            if (httpException.code() == 500 || httpException.code() == 401) {
-//                Utility.onErrorAlert("Something Wrong",context);
-//
-//            }
-//            Log.e("Error", "" + throwable.getMessage());
-//        }
-//    }
-//
-//    private void onLoginSuccess() {
-//
-//        Utility.onSuccessAlert("Update Successful",context);
-//
-//    }
+
 }

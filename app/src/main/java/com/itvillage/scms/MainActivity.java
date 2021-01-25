@@ -9,6 +9,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.itvillage.scms.dto.response.IdentityResponse;
+import com.itvillage.scms.dto.response.LoginResponse;
+import com.itvillage.scms.services.ApiServices;
+import com.itvillage.scms.util.LoggedUserInfo;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,11 +50,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login(String userName, String password) {
-        if (userName.equals("admin")) {
-            startActivity(new Intent(this, FacultyHomeActivity.class));
-        } else {
-            startActivity(new Intent(this, StudentHomeActivity.class));
-        }
+
+        callApiForStudent();
+    }
+
+    private void callApiForStudent() {
+        ApiServices apiServices = new ApiServices(this);
+        Observable<LoginResponse> identityResponseObservable= apiServices.login(userNameEditText.getText().toString(), passwordEditText.getText().toString());
+
+        identityResponseObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(res -> {
+                    LoggedUserInfo.userId = res.getId();
+                    LoggedUserInfo.role = res.getRole();
+                    if(res.getRole().equals("faculty")){
+                        startActivity(new Intent(this,FacultyHomeActivity.class));
+                    }
+                    else {
+                        startActivity(new Intent(this,StudentHomeActivity.class));
+                    }
+
+                }, throwable -> {
+                }, () -> {
+                });
 
     }
 }

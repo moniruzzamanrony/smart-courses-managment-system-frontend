@@ -31,8 +31,8 @@ public class ApiClient {
      private static String BASE_URL = "http://10.0.2.2:9020/";
      // private static String BASE_URL = "https://afridi-gameing-deploy.herokuapp.com/";
      //private static String BASE_URL = "http://123.49.62.227:9020/gdm/";
-     //private static String BASE_URL = "http://10.0.2.15:8088";
-     //private static String BASE_URL = "http://192.168.0.100:8088";
+     //private static String BASE_URL = "http://10.0.2.15:9020";
+     //private static String BASE_URL = "http://192.168.0.100:9020";
 
     public static Retrofit getClient(Context context) {
 
@@ -90,15 +90,15 @@ public class ApiClient {
                 }
             }*/
 
-            ApplicationSharedPreferencesUtil perfUtil = new ApplicationSharedPreferencesUtil(context);
-
-            if (perfUtil.getAccessToken() != null) {
-
-                Log.d("perfUtil AccessToken", perfUtil.getAccessToken());
-                requestBuilder.addHeader("Authorization", "Bearer " + perfUtil.getAccessToken());
-            } else {
-                Log.e("AccessToken", "Not Found Access Token");
-            }
+//            ApplicationSharedPreferencesUtil perfUtil = new ApplicationSharedPreferencesUtil(context);
+//
+//            if (perfUtil.getAccessToken() != null) {
+//
+//                Log.d("perfUtil AccessToken", perfUtil.getAccessToken());
+//                requestBuilder.addHeader("Authorization", "Bearer " + perfUtil.getAccessToken());
+//            } else {
+//                Log.e("AccessToken", "Not Found Access Token");
+//            }
             Request request = requestBuilder.build();
             return chain.proceed(request);
         });

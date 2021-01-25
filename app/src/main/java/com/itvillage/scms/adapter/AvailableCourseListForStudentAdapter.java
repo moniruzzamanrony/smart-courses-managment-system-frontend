@@ -11,17 +11,26 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.itvillage.scms.AttendeesActivity;
+import com.itvillage.scms.FacultyHomeActivity;
 import com.itvillage.scms.R;
+import com.itvillage.scms.dto.response.IdentityResponse;
 import com.itvillage.scms.dto.response.StudentDetailsResponse;
+import com.itvillage.scms.dto.response.TeacherResponse;
+import com.itvillage.scms.services.ApiServices;
+import com.itvillage.scms.util.LoggedUserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class AvailableCourseListForStudentAdapter extends ArrayAdapter<String> {
 
     private Activity context;
-
+    private ArrayList<String> facultyId;
     private ArrayList<String> courseId;
     private ArrayList<String> courseTitle;
     private ArrayList<String> courseCode;
@@ -32,7 +41,7 @@ public class AvailableCourseListForStudentAdapter extends ArrayAdapter<String> {
     private ArrayList<String> facultyEmail;
     private ArrayList<List<StudentDetailsResponse>> registerStudent;
 
-    public AvailableCourseListForStudentAdapter(Activity context, ArrayList<String> courseId, ArrayList<String> courseTitle,
+    public AvailableCourseListForStudentAdapter(Activity context,ArrayList<String> facultyId, ArrayList<String> courseId, ArrayList<String> courseTitle,
                                                 ArrayList<String> courseCode,
                                                 ArrayList<String> assignFaculty,
                                                 ArrayList<String> totalClass,
@@ -40,7 +49,7 @@ public class AvailableCourseListForStudentAdapter extends ArrayAdapter<String> {
                                                 ArrayList<String> facultyName,
                                                 ArrayList<String> facultyPhoneNo,
                                                 ArrayList<String> facultyEmail) {
-        super(context, R.layout.custom_course_list_for_student, courseId);
+        super(context, R.layout.custom_course_list_for_student, facultyId);
 
         this.context = context;
         this.courseTitle = courseTitle;
@@ -51,6 +60,8 @@ public class AvailableCourseListForStudentAdapter extends ArrayAdapter<String> {
         this.facultyName = facultyName;
         this.facultyPhoneNo = facultyPhoneNo;
         this.facultyEmail = facultyEmail;
+        this.facultyId = facultyId;
+        this.courseId = courseId;
 
     }
 
@@ -80,7 +91,8 @@ public class AvailableCourseListForStudentAdapter extends ArrayAdapter<String> {
         courseStudentsDetailsShowBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String id = LoggedUserInfo.userId;
+                setDataInListView(id,facultyId.get(position),courseId.get(position));
                 Log.e("Id",registerStudent.get(position).get(position).getStudentId());
             }
         });
@@ -88,7 +100,22 @@ public class AvailableCourseListForStudentAdapter extends ArrayAdapter<String> {
 
 
     }
+    private void setDataInListView(String studentId,
+                                   String facultyId,
+                                   String courseId) {
+        ApiServices apiServices = new ApiServices(context);
+        Observable<IdentityResponse> identityResponseObservable= apiServices.registrationInCourse(studentId,facultyId,courseId);
 
+        identityResponseObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(res -> {
+                    context.startActivity(new Intent(context, FacultyHomeActivity.class));
+                }, throwable -> {
+                }, () -> {
+                });
+
+
+    }
 
 //    @SuppressLint("CheckResult")
 //    private void updateGameResult(String gameId, String userId, String squadPrize, String numberOfKill) {

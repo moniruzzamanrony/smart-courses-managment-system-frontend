@@ -30,27 +30,32 @@ public interface Apis {
     Observable<IdentityResponse> createNewCourse(@Path("facultyId") String facultyId,@Body RequestBody body);
 
     @POST("api/maintenance/courses/{courseId}/students/{studentId}/days/{dayNo}")
-    Observable<IdentityResponse> createNewCourse(@Path("courseId") String courseId,
+    Observable<IdentityResponse> addNewAttendee(@Path("courseId") String courseId,
                                                  @Path("studentId") String studentId,
                                                  @Path("dayNo") String dayNo);
 
-    @GET("api/maintenance/getAll/teacher/course/{facultyId}")
-    Observable<TeacherResponse> getCoursesByFacultyId(@Path("facultyId") String facultyId, @Body RequestBody body);
-
-    @GET("api/maintenance/student/registration/by/{studentId}/teacher/{facultyId}/course/{courseId}")
+    @POST("api/maintenance/student/registration/by/{studentId}/teacher/{facultyId}/course/{courseId}")
     Observable<IdentityResponse> registrationInCourse(@Path("studentId") String studentId,
-                                                       @Path("facultyId") String facultyId,
-                                                       @Path("courseId") String courseId,
-                                                       @Body RequestBody body);
+                                                      @Path("facultyId") String facultyId,
+                                                      @Path("courseId") String courseId
+    );
+    @GET("api/maintenance/getAll/teacher/course/{facultyId}")
+    Observable<List<TeacherResponse>> getCoursesByFacultyId(@Path("facultyId") String facultyId);
 
-    @GET("api/maintenance/getAll/registration/course/by/student/{studentId}")
-    Observable<List<RegistrationCourseRequest>> getRegisterStudents(@Path("studentId") String studentId,
-                                                                    @Body RequestBody body);
+    @GET("api/maintenance/courses")
+    Observable<List<TeacherResponse>> getCourses();
+
+
+
+    @GET("api/maintenance/getAll/registration/course/{courseId}")
+    Observable<List<RegistrationCourseRequest>> getRegisterStudents(@Path("courseId") String courseId);
+
+    @GET("api/maintenance/getAll/registration/students/{studentId}")
+    Observable<List<TeacherResponse>> getCourseByStudentId(@Path("studentId") String studentId);
 
     @GET("api/maintenance/courses/{courseId}/students/{studentId}/attendee")
     Observable<List<AttandeeResponse>> getAttendeeByStudentId(@Path("courseId") String courseId,
-                                                              @Path("studentId") String studentId,
-                                                              @Body RequestBody body);
+                                                              @Path("studentId") String studentId);
 
 
 
