@@ -1,9 +1,13 @@
 package com.itvillage.scms.api;
 
 import com.itvillage.scms.dto.request.TeacherSignUpRequest;
+import com.itvillage.scms.dto.response.AttandeeResponse;
 import com.itvillage.scms.dto.response.IdentityResponse;
 import com.itvillage.scms.dto.response.LoginResponse;
+import com.itvillage.scms.dto.response.RegistrationCourseRequest;
 import com.itvillage.scms.dto.response.TeacherResponse;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -40,13 +44,13 @@ public interface Apis {
                                                        @Body RequestBody body);
 
     @GET("api/maintenance/getAll/registration/course/by/student/{studentId}")
-    Observable<IdentityResponse> getRegisterStudents(@Path("studentId") String studentId,
-                                                      @Body RequestBody body);
+    Observable<List<RegistrationCourseRequest>> getRegisterStudents(@Path("studentId") String studentId,
+                                                                    @Body RequestBody body);
 
     @GET("api/maintenance/courses/{courseId}/students/{studentId}/attendee")
-    Observable<IdentityResponse> getAttendeeByStudentId(@Path("courseId") String courseId,
-                                                        @Path("studentId") String studentId,
-                                                        @Body RequestBody body);
+    Observable<List<AttandeeResponse>> getAttendeeByStudentId(@Path("courseId") String courseId,
+                                                              @Path("studentId") String studentId,
+                                                              @Body RequestBody body);
 
 
 
