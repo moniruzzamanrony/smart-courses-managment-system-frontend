@@ -74,7 +74,7 @@ public class StudentHomeActivity extends AppCompatActivity {
                         assignFaculty.add(courseRequest.getFirstName());
                         courseCode.add(courseRequest.getCourseCode());
                         courseId.add(courseRequest.getId());
-                        courseTitle.add("Software Engineering");
+                        courseTitle.add("Computer Science Engineering");
                     }
                     myCourseListView = findViewById(R.id.courseListView);
                     MyCourseListAdapter adapter = new MyCourseListAdapter(this,courseId,courseTitle,courseCode,assignFaculty,totalClass,registerStudents,facultyName,facultyPhoneNo,facultyEmail);

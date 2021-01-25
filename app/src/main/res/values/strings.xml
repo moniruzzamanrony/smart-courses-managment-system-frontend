@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Smart Courses Managment System Frontend</string>
+    <string name="app_name">Attendance Management System.</string>
     <string name="have_ac">New User? <b>Sign Up</b></string>
     <string name="contractUs">Any Problem? <b>Contact Us</b> </string>
     <string name="title_activity_user_home">MainActivity</string>
