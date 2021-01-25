@@ -63,7 +63,7 @@ public class AvailableCourseListActivity extends AppCompatActivity {
                         assignFaculty.add(courseRequest.getFirstName());
                         courseCode.add(courseRequest.getCourseCode());
                         courseId.add(courseRequest.getId());
-                        courseTitle.add("Software Engineering");
+                        courseTitle.add("Computer Science Engineering");
                     }
                     available_courses_list  = findViewById(R.id.available_courses_list);
                     AvailableCourseListForStudentAdapter adapter = new AvailableCourseListForStudentAdapter(this,facultyId,courseId,courseTitle,courseCode,assignFaculty,totalClass,registerStudents,facultyName,facultyPhoneNo,facultyEmail);

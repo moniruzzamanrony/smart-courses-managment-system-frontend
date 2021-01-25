@@ -73,7 +73,7 @@ public class FacultyHomeActivity extends AppCompatActivity {
                         assignFaculty.add(courseRequest.getFirstName());
                         courseCode.add(courseRequest.getCourseCode());
                         courseId.add(courseRequest.getId());
-                        courseTitle.add("Software Engineering");
+                        courseTitle.add("Computer Science Engineering");
                     }
                     courseListView = findViewById(R.id.courseListView);
                     CourseListAdapter adapter = new CourseListAdapter(this, courseId, courseTitle, courseCode, assignFaculty, totalClass, registerStudents, facultyName, facultyPhoneNo, facultyEmail);
